@@ -7,3 +7,12 @@ D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M Assignment 2\
 D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M Assignment 2\CMP1124M Assignment 2\obj\Debug\CMP1124M Assignment 2.csproj.CoreCompileInputs.cache
 D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M Assignment 2\CMP1124M Assignment 2\obj\Debug\CMP1124M Assignment 2.exe
 D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M Assignment 2\CMP1124M Assignment 2\obj\Debug\CMP1124M Assignment 2.pdb
+D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M-AS2\CMP1124M Assignment 2\bin\Debug\CMP1124M Assignment 2.exe.config
+D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M-AS2\CMP1124M Assignment 2\bin\Debug\CMP1124M Assignment 2.exe
+D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M-AS2\CMP1124M Assignment 2\bin\Debug\CMP1124M Assignment 2.pdb
+D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M-AS2\CMP1124M Assignment 2\obj\Debug\CMP1124M Assignment 2.csprojAssemblyReference.cache
+D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M-AS2\CMP1124M Assignment 2\obj\Debug\CMP1124M_Assignment_2.Properties.Resources.resources
+D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M-AS2\CMP1124M Assignment 2\obj\Debug\CMP1124M Assignment 2.csproj.GenerateResource.cache
+D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M-AS2\CMP1124M Assignment 2\obj\Debug\CMP1124M Assignment 2.csproj.CoreCompileInputs.cache
+D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M-AS2\CMP1124M Assignment 2\obj\Debug\CMP1124M Assignment 2.exe
+D:\Documents\Uni\Algorithms and Complexities\Assignment 2\CMP1124M-AS2\CMP1124M Assignment 2\obj\Debug\CMP1124M Assignment 2.pdb

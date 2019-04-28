@@ -92,7 +92,7 @@ namespace CMP1124M_Assignment_2
             }
             // Close the program down
             Console.Clear();
-            Console.WriteLine("Well on that dissapointing bombshell...goodnight!");
+            Console.WriteLine("Well on that disapointing bombshell...goodnight!");
             System.Threading.Thread.Sleep(3000);
             Environment.Exit(0);
         }
