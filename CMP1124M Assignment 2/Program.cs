@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace CMP1124M_Assignment_2
 {
@@ -45,8 +44,15 @@ namespace CMP1124M_Assignment_2
             Console.Write("Alright bucko, what do you wish to find in the array: ");
             double user_search = Interaction.validate_search(Console.ReadLine());
             // Once the input has been validated, run the search functionality
-            // Searching.find_value(user_search, sorted_arrs.sorted_asc);  // <-- First iteration of code saw the use of a linear search over binary
+            Searching.find_value(user_search, sorted_arrs.sorted_asc);  // <-- First iteration of code saw the use of a linear search over binary
             Searching.binary_search(user_search, sorted_arrs.sorted_asc);
+            // Print out the efficiency calculations
+            Console.WriteLine(Environment.NewLine + "Efficiency calculations:");
+            Console.WriteLine("The {0} task took {1} operations to complete.", Interaction.linear_search.type, Interaction.linear_search.operations);
+            Console.WriteLine("The {0} task took {1} operations to complete.", Interaction.binary_searching.type, Interaction.binary_searching.operations);
+            Console.WriteLine(Environment.NewLine + "Press any key to continue...");
+            Console.ReadLine();
+            Console.Clear();
             // Now we move onto the bigger files
             Console.WriteLine("Okay big boy, onto the bigger data sets:");
             Console.WriteLine("1 - Low 2048");
@@ -71,8 +77,19 @@ namespace CMP1124M_Assignment_2
             user_search = Interaction.validate_search(Console.ReadLine());
             // Once the input has been validated, run the search functionality
             sorted_arrs = Interaction.run_that_sort(user_choice, true);
-            // Searching.find_value(user_search, Interaction.which_array(user_choice, true));  // <-- First iteration of code saw the use of a linear search over binary
+            // Reset back to 0
+            Interaction.linear_search.operations = 0;
+            Interaction.binary_searching.operations = 0;
+            // Run the searching
+            Searching.find_value(user_search, Interaction.which_array(user_choice, true));  // <-- First iteration of code saw the use of a linear search over binary
             Searching.binary_search(user_search, sorted_arrs.sorted_asc);
+            // Print out the efficiency calculations
+            Console.WriteLine(Environment.NewLine + "Efficiency calculations:");
+            Console.WriteLine("The {0} task took {1} operations to complete.", Interaction.linear_search.type, Interaction.linear_search.operations);
+            Console.WriteLine("The {0} task took {1} operations to complete.", Interaction.binary_searching.type, Interaction.binary_searching.operations);
+            Console.WriteLine(Environment.NewLine + "Press any key to continue...");
+            Console.ReadLine();
+            Console.Clear();
             // Loop 3 times to print out the merged results of each array size
             for (int data_set = 0; data_set < 3; data_set++)
             {
@@ -80,6 +97,13 @@ namespace CMP1124M_Assignment_2
                 sorted_arrs = Interaction.run_direct_sort(Interaction.merge_arrays(data_set));
                 // Run the search functionality
                 Interaction.handle_search(sorted_arrs.sorted_asc);
+                // Print out the efficiency calculations
+                Console.WriteLine(Environment.NewLine + "Efficiency calculations:");
+                Console.WriteLine("The {0} task took {1} operations to complete.", Interaction.linear_search.type, Interaction.linear_search.operations);
+                Console.WriteLine("The {0} task took {1} operations to complete.", Interaction.binary_searching.type, Interaction.binary_searching.operations);
+                Console.WriteLine(Environment.NewLine + "Press any key to continue...");
+                Console.ReadLine();
+                Console.Clear();
             }
             // Ask if they want to restart
             Console.Write("Well that draws us to the end of this demonstration, go again? (y/n)");
@@ -141,6 +165,21 @@ namespace CMP1124M_Assignment_2
     // Class for handling user interaction such as validating inputs
     class Interaction
     {
+        // Struct for holding the amount of operations a task takes
+        public struct Efficiency
+        {
+            public string type;
+            public int operations;
+        }
+        // Make some structs for holding efficiency numbers
+        public static Efficiency bubble_sort_asc = new Efficiency();
+        public static Efficiency bubble_sort_dsc = new Efficiency();
+        public static Efficiency linear_search = new Efficiency();
+        public static Efficiency binary_sort_asc = new Efficiency();
+        public static Efficiency binary_sort_dsc = new Efficiency();
+        public static Efficiency binary_searching = new Efficiency();
+
+
         // Validate the user input to make sure it's an integer and within the boundries
         public static int validate_choice(string raw, int max)
         {
@@ -197,7 +236,7 @@ namespace CMP1124M_Assignment_2
             // Check to see what iterations we need to print out on
             int iterations = Sorting.arr_size(target);
             // Make a call to the sorting class to run a binary in order traversal
-            // Sorting.bubble_asc(target, false);  // <-- First iteration of code saw the use of a bubble sort over binary
+            Sorting.bubble_asc(target, false);  // <-- First iteration of code saw the use of a bubble sort over binary
             BST.Tree_Info bst_tree = BST.init_tree(target);
             BST.Tree binary_tree = bst_tree.binary_tree;
             // Clear the values currently held
@@ -212,7 +251,7 @@ namespace CMP1124M_Assignment_2
             print_values(sorted_asc, iterations, big);
             return_vals.sorted_asc = sorted_asc;
             // Then make a call to the sorting class to run a binary  reverse in order traversal
-            // Sorting.bubble_dsc(target, false);  // <-- First iteration of code saw the use of a bubble sort over binary
+            Sorting.bubble_dsc(target, false);  // <-- First iteration of code saw the use of a bubble sort over binary
             Console.WriteLine(Environment.NewLine + "Desending order {0}th value:", iterations);
             // Sort the incoming array using a binary tree structure
             Sorting.bst_reverse_in_order(bst_tree.curr_root);
@@ -221,6 +260,12 @@ namespace CMP1124M_Assignment_2
             // Print the values we need to the console
             print_values(sorted_dsc, iterations, big);
             return_vals.sorted_dsc = sorted_dsc;
+            // Return the efficiency numbers
+            Console.WriteLine(Environment.NewLine + "Efficiency calculations:");
+            Console.WriteLine("The {0} task took {1} operations to complete.", bubble_sort_asc.type, bubble_sort_asc.operations);
+            Console.WriteLine("The {0} task took {1} operations to complete.", bubble_sort_dsc.type, bubble_sort_dsc.operations);
+            Console.WriteLine("The {0} task took {1} operations to complete.", binary_sort_asc.type, binary_sort_asc.operations);
+            Console.WriteLine("The {0} task took {1} operations to complete.", binary_sort_dsc.type, binary_sort_dsc.operations);
             // Return the sorted arrays
             return return_vals;
         }
@@ -381,8 +426,11 @@ namespace CMP1124M_Assignment_2
             // Ask politely what value the user would hope to find in the array
             Console.Write("Alright chap, what do you wish to find in the array: ");
             double user_search = Interaction.validate_search(Console.ReadLine());
+            // Set the efficieny counters to 0
+            linear_search.operations = 0;
+            binary_searching.operations = 0;
             // Once the input has been validated, run the search functionality
-            // Searching.find_value(user_search, merged_arr);
+            Searching.find_value(user_search, merged_arr);
             Searching.binary_search(user_search, merged_arr);
         }
     }
@@ -414,9 +462,11 @@ namespace CMP1124M_Assignment_2
         // Sort the given array into ascending order using the bubble sort method
         public static double[] bubble_asc(double[] input_arr, bool return_arr)
         {
+            // Set the type for printing to console
+            Interaction.bubble_sort_asc.type = "Bubble Sort in Ascending order";
             // Check what the size of the array is to determine what values we output
             int increments = arr_size(input_arr);
-            Console.WriteLine(Environment.NewLine + "Sorted in Ascending order, outputting every {0}th value from index of 0:", increments);
+            // Console.WriteLine(Environment.NewLine + "Sorted in Ascending order, outputting every {0}th value from index of 0:", increments);
             // Initialize a temporary variable for when we start to swap values
             double temp = 0;
             // Begin doing a global loop over the entire array length
@@ -434,6 +484,8 @@ namespace CMP1124M_Assignment_2
                         input_arr[sort + 1] = input_arr[sort];
                         // Set the current index value to the value stored in the temporary variable
                         input_arr[sort] = temp;
+                        // Increment the operations for efficiency tracking
+                        Interaction.bubble_sort_asc.operations++;
                     }
                 }
             }
@@ -441,7 +493,7 @@ namespace CMP1124M_Assignment_2
             for (int output = 0; output < input_arr.Length; output += increments)
             {
                 // Print to the console the element found at that index in the array
-                Console.WriteLine("At index {0}, we have {1}", output, input_arr[output]);
+                // Console.WriteLine("At index {0}, we have {1}", output, input_arr[output]);
             }
             // Do we want to return the sorted array somewhere?
             if (return_arr)
@@ -458,9 +510,11 @@ namespace CMP1124M_Assignment_2
         // Sort the given array into descending order using the bubble sort method
         public static double[] bubble_dsc(double[] input_arr, bool return_arr)
         {
+            // Set the type for printing to console
+            Interaction.bubble_sort_dsc.type = "Bubble Sort in Descending order";
             // Check what the size of the array is to determine what values we output
             int increments = arr_size(input_arr);
-            Console.WriteLine(Environment.NewLine + "Sorted in Descending order, outputting every {0}th value from index of 0:", increments);
+            // Console.WriteLine(Environment.NewLine + "Sorted in Descending order, outputting every {0}th value from index of 0:", increments);
             // Initialize a temporary variable for when we start to swap values
             double temp = 0;
             // Begin doing a global loop over the entire array length
@@ -478,6 +532,7 @@ namespace CMP1124M_Assignment_2
                         input_arr[sort - 1] = input_arr[sort];
                         // Set the current index value to the value stored in the temporary variable
                         input_arr[sort] = temp;
+                        Interaction.bubble_sort_dsc.operations++;
                     }
                 }
             }
@@ -485,7 +540,7 @@ namespace CMP1124M_Assignment_2
             for (int output = 0; output < input_arr.Length; output += increments)
             {
                 // Print to the console the element found at that index in the array
-                Console.WriteLine("At index {0}, we have {1}", output, input_arr[output]);
+                // Console.WriteLine("At index {0}, we have {1}", output, input_arr[output]);
             }
             // Do we want to return the sorted array somewhere?
             if (return_arr)
@@ -502,6 +557,8 @@ namespace CMP1124M_Assignment_2
         // In order traversal for the binary tree
         public static void bst_in_order(BST.Node root)
         {
+            // Set the type of sorting
+            Interaction.binary_sort_asc.type = "Binary Sort in Ascending order";
             // If we are at the end
             if (root == null)
             {
@@ -512,6 +569,8 @@ namespace CMP1124M_Assignment_2
             bst_in_order(root.left);
             // Add the value to the list to be returned
             sorted_array_asc.Add(root.value);
+            // Increment the interation counter
+            Interaction.binary_sort_asc.operations++;
             // Then traverse down the right side of the root
             bst_in_order(root.right);
         }
@@ -519,6 +578,8 @@ namespace CMP1124M_Assignment_2
         // In order traversal for the binary tree
         public static void bst_reverse_in_order(BST.Node root)
         {
+            // Set the type of sorting
+            Interaction.binary_sort_dsc.type = "Binary Sort in Descending order";
             // If we are at the end
             if (root == null)
             {
@@ -529,6 +590,8 @@ namespace CMP1124M_Assignment_2
             bst_reverse_in_order(root.right);
             // Add the value to the list to be returned
             sorted_array_dsc.Add(root.value);
+            // Increment the interation counter
+            Interaction.binary_sort_dsc.operations++;
             // Follow down the left path of the node
             bst_reverse_in_order(root.left);
         }
@@ -540,6 +603,8 @@ namespace CMP1124M_Assignment_2
         // Linear search for specified value
         public static void find_value(double request, double[] in_array)
         {
+            // Set the search type
+            Interaction.linear_search.type = "Linear search";
             // Declare a list for storing the locations it was found at
             List<int> indexes = new List<int>();
             // Declare a boolean to catch wheter we found the number or not
@@ -555,6 +620,12 @@ namespace CMP1124M_Assignment_2
                     found = true;
                     // Add it to the indexes list for looping over in a sec
                     indexes.Add(position);
+                }
+                // If it's not found add one to the operations taken
+                else
+                {
+                    // Increment the operations it has taken
+                    Interaction.linear_search.operations++;
                 }
             }
             // Inform the user the search is being done on a sorted array
@@ -597,9 +668,7 @@ namespace CMP1124M_Assignment_2
                 }
                 // Let the user down lightly
                 Console.WriteLine("Sorry mate, couldn't find your num. But {0} at index {1} is pretty close.", closest_value, closest_index);
-                Console.Write(Environment.NewLine + "Alright mate no worries, thanks for looking. (press any key)");
-                // Console.ReadLine();
-                // Console.Clear();
+                Console.Write(Environment.NewLine + "Alright mate no worries, thanks for looking.");
             }
         }
 
@@ -614,6 +683,8 @@ namespace CMP1124M_Assignment_2
         // Binary search alternative
         public static void binary_search(double request, double[] in_array)
         {
+            // Set the search type
+            Interaction.binary_searching.type = "Binary search";
             // Clear the console (keep it clean)
             Console.Clear();
             // Have we found the request the user was looking for?
@@ -624,8 +695,6 @@ namespace CMP1124M_Assignment_2
             // Hold the closest numbers both smaller and bigger
             Unfound_Replacement closest_smaller = new Unfound_Replacement();
             Unfound_Replacement closest_bigger = new Unfound_Replacement();
-            // Count the amount of operations it takes
-            int operations = 0;
             // As it says below (while our binary search is still active)
             while (lower_bound < upper_bound)
             {
@@ -650,7 +719,7 @@ namespace CMP1124M_Assignment_2
                             // Print out that the value was also found at this location
                             Console.WriteLine("Also found {0} at index {1} of the array, sorted in ascending order.", request, index);
                             // Increment the operations by 1
-                            operations++;
+                            Interaction.binary_searching.operations++;
                         }
                     }
                     // Reset the index to the midpoint again
@@ -666,11 +735,9 @@ namespace CMP1124M_Assignment_2
                             // Print out that the value was also found at this location
                             Console.WriteLine("Also found {0} at index {1} of the array, sorted in ascending order.", request, index);
                             // Increment the operations by 1
-                            operations++;
+                            Interaction.binary_searching.operations++;
                         }
                     }
-                    // Print out the total operations the search took
-                    Console.WriteLine(Environment.NewLine + "Total opertaions of this search: {0}", operations);
                     // Break ot of the loop
                     break;
                 }
@@ -693,7 +760,7 @@ namespace CMP1124M_Assignment_2
                     closest_smaller.index = mid;
                 }
                 // Iterate the amount of operations
-                operations++;
+                Interaction.binary_searching.operations++;
             }
             // If the request was not found
             if (!found)
@@ -712,8 +779,6 @@ namespace CMP1124M_Assignment_2
                 {
                     diff_bg *= -1;
                 }
-                // Print out the operations it's taken
-                Console.WriteLine("Search took {0} operations before coming to the following conclusion:", operations);
                 //  Work out which difference is smaller
                 if (diff_bg < diff_sm)
                 {
@@ -726,17 +791,7 @@ namespace CMP1124M_Assignment_2
                     Console.WriteLine("Couldn't find your {3}, but {0} at index {1} is only {2} away.", closest_smaller.value, closest_smaller.index, diff_sm, request);
                 }
                 // Wait for the user's input before continuing
-                Console.WriteLine(Environment.NewLine + "No worries mate, thanks for looking. (press any key to continue)");
-                Console.ReadLine();
-                Console.Clear();
-            }
-            // If it was found
-            else
-            {
-                // Just wait for the users input
-                Console.WriteLine(Environment.NewLine + "Press any key to continue...");
-                Console.ReadLine();
-                Console.Clear();
+                Console.WriteLine(Environment.NewLine + "No worries mate, thanks for looking.");
             }
         }
     }
