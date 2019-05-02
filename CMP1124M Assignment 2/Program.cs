@@ -227,6 +227,11 @@ namespace CMP1124M_Assignment_2
         // Take the user input and run the appropriate sort function
         public static Sorted_Arrays run_that_sort(int choice, bool big)
         {
+            // Reset efficiency back to 0
+            bubble_sort_asc.operations = 0;
+            bubble_sort_dsc.operations = 0;
+            binary_sort_asc.operations = 0;
+            binary_sort_dsc.operations = 0;
             // Return the sorted arrays through a struct
             Sorted_Arrays return_vals = new Sorted_Arrays();
             // Firstly, congratulate the user on a good choice
@@ -273,11 +278,15 @@ namespace CMP1124M_Assignment_2
         // Take in an array to sort instead of fetching it
         public static Sorted_Arrays run_direct_sort(double[] target)
         {
+            // Reset efficiency back to 0
+            bubble_sort_asc.operations = 0;
+            bubble_sort_dsc.operations = 0;
+            binary_sort_asc.operations = 0;
+            binary_sort_dsc.operations = 0;
             // Make a call to the sorting class to run a bubble sort in ascending order
-            // Sorting.bubble_asc(target, false);  // <- First version of code used the bubble sort method
+            Sorting.bubble_asc(target, false);  // <- First version of code used the bubble sort method
             // Then make a call to the sorting class to run a bubble sort in ascending order
-            // Sorting.bubble_dsc(target, false);  // <- First version of code used the bubble sort method
-
+            Sorting.bubble_dsc(target, false);  // <- First version of code used the bubble sort method
             // Store the arrays for returning
             Sorted_Arrays return_vals = new Sorted_Arrays();
             // We want to print out every 10th value
@@ -304,6 +313,12 @@ namespace CMP1124M_Assignment_2
             // Print the values we need to the console
             print_values(sorted_dsc, iterations, false);
             return_vals.sorted_dsc = sorted_dsc;
+            // Return the efficiency numbers
+            Console.WriteLine(Environment.NewLine + "Efficiency calculations:");
+            Console.WriteLine("The {0} task took {1} operations to complete.", bubble_sort_asc.type, bubble_sort_asc.operations);
+            Console.WriteLine("The {0} task took {1} operations to complete.", bubble_sort_dsc.type, bubble_sort_dsc.operations);
+            Console.WriteLine("The {0} task took {1} operations to complete.", binary_sort_asc.type, binary_sort_asc.operations);
+            Console.WriteLine("The {0} task took {1} operations to complete.", binary_sort_dsc.type, binary_sort_dsc.operations);
             return return_vals;
         }
 
@@ -624,12 +639,16 @@ namespace CMP1124M_Assignment_2
                 // If it's not found add one to the operations taken
                 else
                 {
-                    // Increment the operations it has taken
-                    Interaction.linear_search.operations++;
+                    // If we are still looking for the value
+                    if (found == false)
+                    {
+                        // Increment the operations it has taken
+                        Interaction.linear_search.operations++;
+                    }
                 }
             }
             // Inform the user the search is being done on a sorted array
-            Console.WriteLine("The seach done over the sorted array in ascending order returned these results:");
+            // Console.WriteLine("The seach done over the sorted array in ascending order returned these results:");
             // If the number was found, print out the locations it was found at
             if (found)
             {
@@ -638,7 +657,7 @@ namespace CMP1124M_Assignment_2
                 foreach (int index in indexes_arr)
                 {
                     // Print to console the position the number was found at
-                    Console.WriteLine("Found ya number at index {0}", index);
+                    // Console.WriteLine("Found ya number at index {0}", index);
                 }
             }
             // If we couldn't find the exact number, find the closest one
@@ -667,8 +686,8 @@ namespace CMP1124M_Assignment_2
                     }
                 }
                 // Let the user down lightly
-                Console.WriteLine("Sorry mate, couldn't find your num. But {0} at index {1} is pretty close.", closest_value, closest_index);
-                Console.Write(Environment.NewLine + "Alright mate no worries, thanks for looking.");
+                // Console.WriteLine("Sorry mate, couldn't find your num. But {0} at index {1} is pretty close.", closest_value, closest_index);
+                // Console.Write(Environment.NewLine + "Alright mate no worries, thanks for looking.");
             }
         }
 
@@ -683,10 +702,10 @@ namespace CMP1124M_Assignment_2
         // Binary search alternative
         public static void binary_search(double request, double[] in_array)
         {
+            // Clear the outputs from the sorting
+            Console.Clear();
             // Set the search type
             Interaction.binary_searching.type = "Binary search";
-            // Clear the console (keep it clean)
-            Console.Clear();
             // Have we found the request the user was looking for?
             bool found = false;
             // Upper and lower bounds of our search params
@@ -704,7 +723,7 @@ namespace CMP1124M_Assignment_2
                 if (request == in_array[mid])
                 {
                     // Write it to the console
-                    Console.WriteLine("Found {0} at index {1} of the array, sorted in ascending order.", request, mid);
+                    Console.WriteLine(Environment.NewLine + "Found {0} at index {1} of the array, sorted in ascending order.", request, mid);
                     found = true;
                     // Save the current index for the mid point
                     int index = mid;
